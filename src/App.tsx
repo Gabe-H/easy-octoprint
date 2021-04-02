@@ -11,25 +11,29 @@ setChonkyDefaults({
 });
 
 const Hello = () => {
-  const OctoPi01: OctoPiInstance = {
-    url: 'http://octopi-01.local',
-    apiKey: '3914A444936C4875A84B60E6BF2C8F8E',
-    name: 'Bambusoideae',
-  };
-  const OctoPi02: OctoPiInstance = {
-    url: 'http://octopi-02.local',
-    apiKey: 'EF5CEEDCD17B48E4B92CAA025443BC17',
-    name: 'Sucus',
-  };
+
+  const octopiInstances: Array<OctoPiInstance> = [
+    {
+      url: 'http://octopi-01.local',
+      apiKey: '3914A444936C4875A84B60E6BF2C8F8E',
+      name: 'Bambusoideae',
+    },
+    {
+      url: 'http://octopi-02.local',
+      apiKey: 'EF5CEEDCD17B48E4B92CAA025443BC17',
+      name: 'Sucus',
+    }
+  ]
 
   return (
     <div className="printerInstanceParent">
-      <div className="printerInstanceChild">
-        <Printer instance={OctoPi01} />
-      </div>
-      {/* <div className="printerInstanceChild">
-        <Printer instance={OctoPi02}/>
-      </div> */}
+      {octopiInstances.map((instance) => {
+        return (
+          <div className="printerInstanceChild">
+            <Printer instance={instance} />
+          </div>
+        )
+      })}
     </div>
   );
 };

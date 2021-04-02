@@ -19,7 +19,7 @@ export default function Printer({ instance }: PrinterProps) {
         <img
           className={styles.stream}
           src={`${instance.url}/webcam/?action=stream`}
-          alt="Steam should be here"
+          alt="Stream should be here"
           onClick={openOctopi}
         />
       </div>
