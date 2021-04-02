@@ -1,0 +1,12 @@
+
+.streamContainter {
+  width: 640px;
+  height: 480px;
+  background-color: black;
+}
+
+.stream {
+  background-color: black;
+  border-radius: 5px;
+  cursor: pointer;
+}

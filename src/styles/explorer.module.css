@@ -1,0 +1,22 @@
+.folder {
+  color: black;
+  cursor: pointer;
+}
+
+.folder:hover {
+  color: grey
+}
+
+.file {
+  color: black;
+  cursor: default;
+}
+
+.file:hover {
+  background-color: lightgrey;
+}
+
+.explorerContainer {
+  background-color: white;
+  border-radius: 3px;
+}
