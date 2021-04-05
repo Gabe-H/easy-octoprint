@@ -10,6 +10,7 @@ export default function updateDir(data: any): FileArray {
         size: file.size,
         modDate: file.date,
         path: file.path,
+        type: file.type
       }
     })
 }

@@ -1,22 +1,28 @@
-.folder {
-  color: black;
-  cursor: pointer;
-}
-
-.folder:hover {
-  color: grey
-}
-
-.file {
-  color: black;
-  cursor: default;
-}
-
-.file:hover {
-  background-color: lightgrey;
-}
-
-.explorerContainer {
+.activeFile {
   background-color: white;
-  border-radius: 3px;
+  border-color: gray;
+  border-width: 2px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  color: #444;
+  font-size: 15pt;
+}
+
+.loadButton {
+  width: 100%;
+  background-color: green;
+  border-radius: 5px;
+  margin: 0;
+
+  font-size: 15pt;
+  font-weight: bold;
+}
+
+.loadButton:focus {
+  outline: none;
+}
+
+.loadButton:active {
+  background-color: rgb(0, 100, 0);
 }

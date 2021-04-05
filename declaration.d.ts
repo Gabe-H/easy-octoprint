@@ -3,6 +3,11 @@ interface GCodeAnalysis {
     filament: Filament;
 }
 
+interface FileAndPath {
+  name: string;
+  path: string;
+}
+
 interface GCodeFile {
     date: number;
     name: string;

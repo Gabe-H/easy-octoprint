@@ -7,24 +7,34 @@ body {
   height: 100vh;
   background: linear-gradient(
     200.96deg,
-    #fedc2a -29.09%,
+    /* #fedc2a -29.09%,
     #dd5789 51.77%,
-    #7a2c9e 129.35%
+    #7a2c9e 129.35% */
+    #72d106 -29.09%,
+    #14858d 51.77%,
+    #14006b 129.35%
   );
   font-family: sans-serif;
   justify-content: center;
   align-items: center;
 }
 
-.printerInstanceParent {
-  display: flex;
-  flex-wrap: wrap;
+.printerInstanceChild {
+  width: 100%;
+  margin-bottom: 10px;
 }
 
-.printerInstanceChild {
-  flex: 0 1 300px;
-  border: 1px solid red;
-  background: lightpink;
-  font-size: 2rem;
-  text-align: center;
+.massUploadContainer {
+  background-color: #7a2c9e;
+  position: absolute;
+  left: 25%;
+  width: 50%;
+  bottom: 25px;
+}
+.center {
+  margin: 0;
+  position: absolute;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
