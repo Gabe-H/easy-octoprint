@@ -84,6 +84,17 @@ const Main = () => {
     Mapel,
   ];
 
+  var folderUrls: Array<string> = octopiInstances.map((instance) => {
+    return instance.url.concat('/api/files/local');
+  });
+
+  const onFolderCallback = (event: string) => {
+    folderUrls.map((url) =>{
+      if (url.startsWith(event.split('.local/api')[0]))
+      folderUrls.splice(folderUrls.indexOf(url), 1, event)
+    })
+  };
+
   return (
     <React.Fragment>
       <div
@@ -97,14 +108,14 @@ const Main = () => {
         {octopiInstances.map((instance) => {
           return (
             <div className="printerInstanceChild">
-              <Printer instance={instance} />
+              <Printer instance={instance} folderCallback={onFolderCallback} />
             </div>
           );
         })}
       </div>
       <div className="massUploadContainer">
         <div className="center">
-          <MassUpload octopiInstances={octopiInstances} />
+          <MassUpload octopiInstances={octopiInstances} folderUrls={folderUrls} />
         </div>
       </div>
     </React.Fragment>

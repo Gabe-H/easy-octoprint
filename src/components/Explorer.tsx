@@ -5,22 +5,24 @@ import updateDir from '../utils/UpdateDir';
 import LoadPrint from '../utils/LoadPrint';
 import DeleteFile from '../utils/DeleteFile';
 import NewFolder from '../utils/NewFolder';
-import styles from '../styles/explorer.module.css';
 import NewFolderModal from './NewFolderModal';
 import { useDropzone } from 'react-dropzone';
 
 import { FullFileBrowser, FileData } from 'chonky';
+import PrinterState from './PrinterState';
 
 type ExplorerProps = {
   instance: OctoPiInstance;
+  folderCallback: any;
 };
 
-export default function Explorer({ instance }: ExplorerProps) {
+export default function Explorer({ instance, folderCallback }: ExplorerProps) {
   const [folderModalOpen, setFolderModalOpen] = useState(false);
   const root = instance.url.concat('/api/files/local');
 
   const [folderUrl, setFolderUrl] = useState(root);
   const [activeFile, setActiveFile] = useState<FileAndPath>();
+  const [selectedFile, setSelectedFile] = useState("");
 
   const folderChain = folderUrl
     .split('files/local')[1]
@@ -98,7 +100,7 @@ export default function Explorer({ instance }: ExplorerProps) {
   if (!data) return <div>{instance.name}...</div>;
 
   const handleFileAction = (data: any) => {
-    console.log(data);
+    // console.log(data);
     switch (data.id) {
       case 'open_files':
         var file: any;
@@ -164,6 +166,8 @@ export default function Explorer({ instance }: ExplorerProps) {
       });
   };
 
+  folderCallback(folderUrl);
+
   return (
     <div>
       <NewFolderModal
@@ -177,6 +181,7 @@ export default function Explorer({ instance }: ExplorerProps) {
             },
             instance,
           });
+          setSelectedFile(name);
         }}
       />
       <div {...getRootProps()}>
@@ -189,18 +194,7 @@ export default function Explorer({ instance }: ExplorerProps) {
           />
         </div>
       </div>
-      {activeFile && (
-        <>
-          <div className={styles.activeFile}>{activeFile.name}</div>
-          <button
-            type="button"
-            className={styles.loadButton}
-            onClick={handleLoad}
-          >
-            Print file
-          </button>
-        </>
-      )}
+      <PrinterState instance={instance}/>
     </div>
   );
 }

@@ -2,13 +2,13 @@ import React, { useState } from 'react';
 import Explorer from './Explorer';
 import styles from '../styles/instance.module.css';
 import { shell } from 'electron';
-import Preheat from './Preheat';
 
 type PrinterProps = {
   instance: OctoPiInstance;
+  folderCallback: any
 };
 
-export default function Printer({ instance }: PrinterProps) {
+export default function Printer({ instance, folderCallback }: PrinterProps) {
   const openOctopi = () => {
     shell.openExternal(instance.url);
   };
@@ -19,6 +19,10 @@ export default function Printer({ instance }: PrinterProps) {
   const handleButton = () => {
     setExplorerOpen(!explorerOpen);
   };
+
+  const onFolderCallback = (event: string) => {
+    folderCallback(event)
+  }
 
   return (
     <div>
@@ -43,8 +47,7 @@ export default function Printer({ instance }: PrinterProps) {
       <button type="button" onClick={handleButton} className={styles.toggle} />
       {explorerOpen && (
         <div>
-          <Explorer instance={instance} />
-          <Preheat instance={instance}/>
+          <Explorer instance={instance} folderCallback={onFolderCallback} />
         </div>
       )}
     </div>

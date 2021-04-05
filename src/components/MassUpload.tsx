@@ -3,16 +3,17 @@ import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone';
 
 interface MassUploadProps {
-  octopiInstances: Array<OctoPiInstance>
+  octopiInstances: Array<OctoPiInstance>;
+  folderUrls: Array<string>;
 }
 
-export default function MassUpload({ octopiInstances }: MassUploadProps) {
+export default function MassUpload({ octopiInstances, folderUrls }: MassUploadProps) {
 
   const onDrop = useCallback(
     (acceptedFiles) => {
       acceptedFiles.forEach((file: File) => {
         octopiInstances.map((instance) => {
-          const root = instance.url.concat('/api/files/local');
+          var root = instance.url.concat('/api/files/local');
           const reader = new FileReader();
           reader.readAsDataURL(file);
 
@@ -24,6 +25,11 @@ export default function MassUpload({ octopiInstances }: MassUploadProps) {
             // Fill the formData object
             formData.append('file', file);
             formData.append('filename', file.name);
+            folderUrls.map((url) => {
+              if (url.startsWith(instance.url))
+              url.split('/api/files/local/')[1] &&
+                formData.append('path', url.split('/api/files/local/')[1]);
+            })
             // formData.append('path', instance.url.concat(''));
 
             axios({
