@@ -30,6 +30,9 @@ node_modules
 # OSX
 .DS_Store
 
+# Environment variable
+*.env
+
 # App packaged
 release
 src/main.prod.js

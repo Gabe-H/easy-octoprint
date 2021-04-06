@@ -253,6 +253,7 @@
     "chonky": "^2.1.0",
     "chonky-icon-fontawesome": "^2.1.0",
     "debounce": "^1.2.1",
+    "dotenv": "^8.2.0",
     "electron-debug": "^3.1.0",
     "electron-log": "^4.2.4",
     "electron-updater": "^4.3.4",

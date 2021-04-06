@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import Printer from './components/Printer';
 import {
   ChonkyActions,
   setChonkyDefaults,
@@ -8,6 +7,7 @@ import {
   ChonkyIconName,
 } from 'chonky';
 import { ChonkyIconFA } from 'chonky-icon-fontawesome';
+import Printer from './components/Printer';
 import './App.global.css';
 import MassUpload from './components/MassUpload';
 
@@ -46,57 +46,57 @@ setChonkyDefaults({
 const Main = () => {
   const Lavender: OctoPiInstance = {
     url: 'http://lavandula.local',
-    apiKey: '',
+    apiKey: process.env.KEY_1 as string,
     name: 'Lavandula',
   };
   const Succulent: OctoPiInstance = {
     url: 'http://echeveria.local',
-    apiKey: '',
+    apiKey: process.env.KEY_2 as string,
     name: 'Echeveria',
   };
   const Redwood: OctoPiInstance = {
     url: 'http://sempervirens.local',
-    apiKey: '',
+    apiKey: process.env.KEY_3 as string,
     name: 'Sempervirens',
   };
   const Mapel: OctoPiInstance = {
     url: 'http://palmatum.local',
-    apiKey: '',
+    apiKey: process.env.KEY_4 as string,
     name: 'Palmatum',
   };
   const Lilac: OctoPiInstance = {
     url: 'http://syringa.local',
-    apiKey: '74775D4921C64832A3919AC96AD079D5',
+    apiKey: process.env.KEY_5 as string,
     name: 'Syringa',
   };
   const Bamboo: OctoPiInstance = {
     url: 'http://bambusoideae.local',
-    apiKey: '3914A444936C4875A84B60E6BF2C8F8E',
+    apiKey: process.env.KEY_6 as string,
     name: 'Bambusoideae',
   };
 
   const octopiInstances: Array<OctoPiInstance> = [
-    Lilac,
-    Bamboo,
     Lavender,
     Succulent,
     Redwood,
     Mapel,
+    Lilac,
+    Bamboo,
   ];
 
-  var folderUrls: Array<string> = octopiInstances.map((instance) => {
+  const folderUrls: Array<string> = octopiInstances.map((instance) => {
     return instance.url.concat('/api/files/local');
   });
 
   const onFolderCallback = (event: string) => {
-    folderUrls.map((url) =>{
+    folderUrls.forEach((url) => {
       if (url.startsWith(event.split('.local/api')[0]))
       folderUrls.splice(folderUrls.indexOf(url), 1, event)
     })
   };
 
   return (
-    <React.Fragment>
+    <>
       <div
         style={{
           height: 'auto',
@@ -107,8 +107,8 @@ const Main = () => {
       >
         {octopiInstances.map((instance) => {
           return (
-            <div className="printerInstanceChild">
-              <Printer instance={instance} folderCallback={onFolderCallback} />
+            <div className="printerInstanceChild" key={instance.name}>
+              <Printer instance={instance} folderCallback={onFolderCallback} key={octopiInstances.indexOf(instance)}/>
             </div>
           );
         })}
@@ -118,7 +118,7 @@ const Main = () => {
           <MassUpload octopiInstances={octopiInstances} folderUrls={folderUrls} />
         </div>
       </div>
-    </React.Fragment>
+    </>
   );
 };
 

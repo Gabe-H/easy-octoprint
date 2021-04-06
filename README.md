@@ -1,3 +1,34 @@
+# Easy Octoprint
+
+## Environment variables
+
+Each Octoprint instance should have its API key in a `.env` file in the root dir, configured as such:
+
+```ini
+KEY_1=YOUR_KEY_HERE
+KEY_2=YOUR_KEY_HERE
+KEY_3=YOUR_KEY_HERE
+KEY_=...
+```
+
+And the rest of the instances should be set up `App.tsx`, ultimately ending up with `OctoPiInstance`'s in the array `octopiInstances`
+
+```ts
+  const Instance1: OctoPiInstance = {
+    url: 'http://octopi-01.local',
+    apiKey: process.env.KEY_1 as string,
+    name: 'My OctoPi 1',
+  };
+  const ...
+
+  const octopiInstances: Array<OctoPiInstance> = [
+    Instance1,
+    ...
+  ]
+```
+
+<br>
+
 <img src=".erb/img/erb-banner.png" width="100%" />
 
 <br>
