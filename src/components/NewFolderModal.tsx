@@ -34,7 +34,7 @@ export default function NewFolderModal({folderModalOpen, onCloseModal, callback}
   }
 
   const onKeypressEvent = (event: any) => {
-    if (event.key == "Enter") {
+    if (event.key === "Enter") {
       console.log(stuffInsideTextBox)
       callback(stuffInsideTextBox);
       onCloseModal();
@@ -55,8 +55,8 @@ export default function NewFolderModal({folderModalOpen, onCloseModal, callback}
     >
       <h2>Enter new folder name:</h2>
       <input value={stuffInsideTextBox} onChange={slugChange} />
-      <button onClick={() => onCloseModal()}>Cancel</button>
-      <button onClick={clickedOnContinueButton}>Continue</button>
+      <button type="button" onClick={() => onCloseModal()}>Cancel</button>
+      <button type="button" onClick={clickedOnContinueButton}>Continue</button>
     </Modal>
   )
 }

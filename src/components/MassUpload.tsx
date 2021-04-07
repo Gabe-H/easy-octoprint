@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import axios from 'axios';
 import React, { useCallback } from 'react'
 import { useDropzone } from 'react-dropzone';
@@ -12,8 +13,8 @@ export default function MassUpload({ octopiInstances, folderUrls }: MassUploadPr
   const onDrop = useCallback(
     (acceptedFiles) => {
       acceptedFiles.forEach((file: File) => {
-        octopiInstances.map((instance) => {
-          var root = instance.url.concat('/api/files/local');
+        octopiInstances.forEach((instance) => {
+          const root = instance.url.concat('/api/files/local');
           const reader = new FileReader();
           reader.readAsDataURL(file);
 
@@ -25,9 +26,9 @@ export default function MassUpload({ octopiInstances, folderUrls }: MassUploadPr
             // Fill the formData object
             formData.append('file', file);
             formData.append('filename', file.name);
-            folderUrls.map((url) => {
+            folderUrls.forEach((url) => {
               if (url.startsWith(instance.url))
-              url.split('/api/files/local/')[1] &&
+              if (url.split('/api/files/local/')[1])
                 formData.append('path', url.split('/api/files/local/')[1]);
             })
             // formData.append('path', instance.url.concat(''));
@@ -42,7 +43,7 @@ export default function MassUpload({ octopiInstances, folderUrls }: MassUploadPr
               },
             })
               .then(() => {
-                console.log(file.name, 'upload successful');
+                return console.log(file.name, 'upload successful');
               })
               .catch(console.log);
           };

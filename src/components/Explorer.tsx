@@ -1,14 +1,14 @@
+/* eslint-disable react/jsx-props-no-spreading */
 import React, { useCallback, useState } from 'react';
 import useSWR from 'swr';
 import axios from 'axios';
+import { FullFileBrowser, FileData } from 'chonky';
+import { useDropzone } from 'react-dropzone';
 import updateDir from '../utils/UpdateDir';
 import LoadPrint from '../utils/LoadPrint';
 import DeleteFile from '../utils/DeleteFile';
 import NewFolder from '../utils/NewFolder';
 import NewFolderModal from './NewFolderModal';
-import { useDropzone } from 'react-dropzone';
-
-import { FullFileBrowser, FileData } from 'chonky';
 import PrinterState from './PrinterState';
 
 type ExplorerProps = {
@@ -28,24 +28,23 @@ export default function Explorer({ instance, folderCallback }: ExplorerProps) {
     .split('files/local')[1]
     .split('/')
     .map((shortPath: string) => {
-      shortPath === '' && (shortPath = instance.name);
-      return { id: shortPath, name: shortPath, isDir: true };
+      let modPath = shortPath;
+      if (shortPath === '') modPath = instance.name;
+      return { id: modPath, name: modPath, isDir: true };
     });
 
   const fetcher = (url: string, apiKey: string) => {
     return axios({
       method: 'GET',
-      url: url,
+      url,
       headers: {
         Authorization: 'Bearer '.concat(apiKey),
       },
     })
       .then((response) => {
-        if (folderUrl === root) {
+        if (folderUrl === root)
           return updateDir(response.data.files);
-        } else {
-          return updateDir(response.data.children);
-        }
+        return updateDir(response.data.children);
       })
       .catch(console.error);
   };
@@ -64,7 +63,7 @@ export default function Explorer({ instance, folderCallback }: ExplorerProps) {
           // Fill the formData object
           formData.append('file', file);
           formData.append('filename', file.name);
-          folderUrl.split('/api/files/local/')[1] &&
+          if (folderUrl.split('/api/files/local/')[1])
             formData.append('path', folderUrl.split('/api/files/local/')[1]);
 
           axios({
@@ -77,7 +76,7 @@ export default function Explorer({ instance, folderCallback }: ExplorerProps) {
             },
           })
             .then(() => {
-              console.log(file.name, 'upload successful');
+              return console.log(file.name, 'upload successful');
             })
             .catch(console.log);
         };
@@ -99,15 +98,18 @@ export default function Explorer({ instance, folderCallback }: ExplorerProps) {
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>{instance.name}...</div>;
 
-  const handleFileAction = (data: any) => {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleFileAction = (action: any) => {
     // console.log(data);
-    switch (data.id) {
-      case 'open_files':
-        var file: any;
-        if (data.payload.targetFile) {
-          file = data.payload.targetFile;
+    switch (action.id) {
+      case 'open_files': {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let file: FileData;
+        if (action.payload.targetFile) {
+          file = action.payload.targetFile;
         } else {
-          file = data.payload.files[0];
+          // eslint-disable-next-line prefer-destructuring
+          file = action.payload.files[0];
         }
         if (file.isDir) {
           console.log('Opening folder', file.name);
@@ -126,11 +128,12 @@ export default function Explorer({ instance, folderCallback }: ExplorerProps) {
           console.log('Opening file', file.name);
         }
         break;
+      }
       case 'mouse_click_file':
-        if (data.payload.file.type === 'machinecode')
+        if (action.payload.file.type === 'machinecode')
           setActiveFile({
-            name: data.payload.file.name,
-            path: data.payload.file.path,
+            name: action.payload.file.name,
+            path: action.payload.file.path,
           });
         break;
       case 'create_folder':
@@ -140,13 +143,13 @@ export default function Explorer({ instance, folderCallback }: ExplorerProps) {
         open();
         break;
       case 'delete_files':
-        data.state.selectedFiles.map((fileToDelete: FileData) => {
+        action.state.selectedFiles.forEach((fileToDelete: FileData) => {
           DeleteFile({
             file: {
               name: fileToDelete.name,
               path: folderUrl,
             },
-            instance: instance,
+            instance,
           });
         });
         break;
@@ -156,13 +159,13 @@ export default function Explorer({ instance, folderCallback }: ExplorerProps) {
   };
 
   const handleLoad = () => {
-    activeFile &&
+    if (activeFile)
       LoadPrint({
         file: {
           name: activeFile.name,
           path: activeFile.path,
         },
-        instance: instance,
+        instance,
       });
   };
 

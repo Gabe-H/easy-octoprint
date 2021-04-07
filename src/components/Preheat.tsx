@@ -20,14 +20,14 @@ export default function Preheat({ instance }: PreheatProps) {
 
   const handleExtruderButton = () => {
     SetExtruder0Temp({
-      temperature: parseInt(extruder),
+      temperature: parseInt(extruder, 10),
       instance
     })
   };
 
   const handleBedButton = () => {
     SetBedTemp({
-      temperature: parseInt(bed),
+      temperature: parseInt(bed, 10),
       instance
     });
   };
@@ -43,6 +43,7 @@ export default function Preheat({ instance }: PreheatProps) {
           max={300}
           className={styles.numberField}
         />
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="extruderTemp">
           <button type="button" onClick={handleExtruderButton}>
             Set Extruder
@@ -58,6 +59,7 @@ export default function Preheat({ instance }: PreheatProps) {
           max={300}
           className={styles.numberField}
         />
+        {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
         <label htmlFor="bedTemp">
           <button type="button" onClick={handleBedButton}>
             Set Bed

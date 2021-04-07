@@ -12,7 +12,7 @@ export default function NewFolder({ file, instance }: NewFolderProps) {
   const formData = new FormData();
 
   formData.append('foldername', file.name)
-  file.path.split('/api/files/local/')[1] && formData.append('path', file.path.split('/api/files/local/')[1])
+  if (file.path.split('/api/files/local/')[1]) formData.append('path', file.path.split('/api/files/local/')[1])
 
   axios({
     method: 'post',

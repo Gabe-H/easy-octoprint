@@ -1,11 +1,13 @@
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from 'react';
+import { shell } from 'electron';
 import Explorer from './Explorer';
 import styles from '../styles/instance.module.css';
-import { shell } from 'electron';
 
 type PrinterProps = {
   instance: OctoPiInstance;
-  folderCallback: any
+  folderCallback(event: string): void
 };
 
 export default function Printer({ instance, folderCallback }: PrinterProps) {
@@ -30,8 +32,8 @@ export default function Printer({ instance, folderCallback }: PrinterProps) {
         {imgFail ? (
           <img
             className={styles.stream}
-            src={'./public/offline.png'}
-            alt="Image failed to load"
+            src='./public/offline.png'
+            alt="Failed to load"
             onClick={openOctopi}
           />
         ) : (
@@ -44,6 +46,7 @@ export default function Printer({ instance, folderCallback }: PrinterProps) {
           />
         )}
       </div>
+      {/* eslint-disable-next-line jsx-a11y/control-has-associated-label */}
       <button type="button" onClick={handleButton} className={styles.toggle} />
       {explorerOpen && (
         <div>

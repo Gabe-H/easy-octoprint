@@ -18,12 +18,12 @@ export default function PrinterState({ instance }: PrinterStateProps) {
   const [extruder, setExtruder] = useState<TemperatureState>({actual: 0, target: 0});
   const [bed, setBed] = useState<TemperatureState>({actual: 0, target: 0});
 
-  const fetcher = (instance: OctoPiInstance) => {
+  const fetcher = (octopi: OctoPiInstance) => {
     return axios({
       method: 'GET',
-      url: instance.url.concat('/api/printer?history=false'),
+      url: octopi.url.concat('/api/printer?history=false'),
       headers: {
-        Authorization: 'Bearer '.concat(instance.apiKey)
+        Authorization: 'Bearer '.concat(octopi.apiKey)
       }
     })
       .then((response) => {

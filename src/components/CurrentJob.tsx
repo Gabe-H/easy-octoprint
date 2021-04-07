@@ -8,12 +8,12 @@ interface CurrentJobProps {
 
 export default function CurrentJob({ instance }: CurrentJobProps) {
 
-  const fetcher = (instance: OctoPiInstance) => {
+  const fetcher = (octopi: OctoPiInstance) => {
     return axios({
       method: 'GET',
       url: instance.url.concat('/api/job'),
       headers: {
-        Authorization: 'Bearer '.concat(instance.apiKey)
+        Authorization: 'Bearer '.concat(octopi.apiKey)
       }
     })
       .then((response) => {
@@ -35,7 +35,7 @@ export default function CurrentJob({ instance }: CurrentJobProps) {
       {data.progress && (
         data.progress.completion != null && (
           <>
-          <progress id="printProgress" max={100} value={data.progress.completion} style={{ height: '20px', marginTop: '5px' }}></progress>
+          <progress id="printProgress" max={100} value={data.progress.completion} style={{ height: '20px', marginTop: '5px' }} />
           <label htmlFor="printProgress" style={{ marginLeft: '5px'}}>{new Date(data.progress.printTime * 1000).toISOString().substr(11, 8)}</label>
           </>
         )
